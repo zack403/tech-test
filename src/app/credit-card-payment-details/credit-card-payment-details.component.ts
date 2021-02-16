@@ -44,10 +44,10 @@ export class CreditCardPaymentDetailsComponent implements OnInit {
           type: 'ADD_CREDIT_CARD',
           payload: this.creditCardPaymentDetailsForm.value
         });
-        this.toasterSvc.Success(res);
+        this.toasterSvc.Success("successful");
       }, err => {
           this.submitted = false;
-          this.toasterSvc.Error(err);
+          this.toasterSvc.Error("Something failed");
           this.store.dispatch({
             type: 'ADD_CREDIT_CARD',
             payload: this.creditCardPaymentDetailsForm.value
