@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
-import { CreditCardPaymentDetails, PaymentService, ToasterService } from '../core';
+import { PaymentService, ToasterService } from '../core';
+import { expiryDateValidator } from '../shared/expiry-date-validator.directive';
 
 
 @Component({
@@ -16,28 +17,24 @@ export class CreditCardPaymentDetailsComponent implements OnInit {
 
 
   constructor(
-    private formBuilder: FormBuilder, 
     private paymentSvc: PaymentService, 
     private toasterSvc: ToasterService,
     private store: Store<AppState>
-  ) { 
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.creditCardPaymentDetailsForm = new FormGroup({
       cardHolder: new FormControl('', [Validators.required]),
-      creditCardNumber: new FormControl('', [Validators.required]),
-      expirationDate: new FormControl(''),
+      creditCardNumber: new FormControl('', [Validators.required, Validators.minLength(16), Validators.maxLength(16)]),
+      expirationDate: new FormControl('', [expiryDateValidator()]),
       amount: new FormControl('', [Validators.pattern(/^[0-9]*$/), Validators.min(1), Validators.required]),
       securityCode: new FormControl('', [Validators.pattern(/^[0-9]*$/), Validators.minLength(3), Validators.maxLength(3)]),
       year: new FormControl('', [Validators.required]),
       month: new FormControl('', [Validators.required])
-
     });
   }
 
-  get f(){
+  get formInputAccessor(){
     return this.creditCardPaymentDetailsForm.controls;
   }
 
@@ -62,7 +59,6 @@ export class CreditCardPaymentDetailsComponent implements OnInit {
 
   monthChanged(value: number) {
     this.creditCardPaymentDetailsForm.value.month = value;
-
   }
 
   yearChanged(value: number) {
