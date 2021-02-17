@@ -9,11 +9,15 @@
                     <form name="creditCardPaymentDetailsForm" [formGroup]="creditCardPaymentDetailsForm">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group" [ngClass]="{'has-error': creditCardPaymentDetailsForm.get('cardHolder')?.errors && creditCardPaymentDetailsForm.get('cardHolder')?.touched}">
+                                <div class="form-group">
                                     <label for="name">Card Holder</label>
-                                    <input class="form-control" id="name" type="text" formControlName="cardHolder" required placeholder="Enter your name">
-                                    <div *ngIf="creditCardPaymentDetailsForm.controls['cardHolder'].hasError('required') && creditCardPaymentDetailsForm.get('cardHolder')?.touched" class="invalid-feedback">Card Holder is required.</div>
+                                    <input [ngClass]="{'is-invalid': f.cardHolder.touched && f.cardHolder.invalid}" class="form-control" id="cardHolder" type="text" formControlName="cardHolder" required placeholder="Enter your name">
+                                    <div *ngIf="f.cardHolder.touched && f.cardHolder.invalid" class="invalid-feedback">
+                                        <div *ngIf="f.cardHolder.errors?.required">Card Holder is required.</div>
+                                    </div>
 
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -22,11 +26,14 @@
                                 <div class="form-group">
                                     <label for="ccnumber">Credit Card Number</label>
                                     <div class="input-group">
-                                        <input class="form-control" type="text" placeholder="0000 0000 0000 0000" formControlName="creditCardNumber" required>
+                                        <input [ngClass]="{'is-invalid': f.creditCardNumber.touched && f.creditCardNumber.invalid}" class="form-control" type="text" placeholder="0000 0000 0000 0000" formControlName="creditCardNumber" required>
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="mdi mdi-credit-card"></i>
                                             </span>
+                                        </div>
+                                        <div *ngIf="f.creditCardNumber.touched && f.creditCardNumber.invalid" class="invalid-feedback">
+                                            <div *ngIf="f.creditCardNumber.errors?.required">Credit Card number is required.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -35,7 +42,7 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label>Expiration Date</label>
-                                <select (change)="monthChanged($any($event.target).value)" class="form-control" formControlName="month" required id="ccmonth" >
+                                <select [ngClass]="{'is-invalid': f.month.touched && f.month.invalid}" (change)="monthChanged($any($event.target).value)" class="form-control" formControlName="month" required id="ccmonth" >
                                     <option value="" disabled selected>Select month</option>
                                     <option>1</option>
                                     <option>2</option>
@@ -50,10 +57,13 @@
                                     <option>11</option>
                                     <option>12</option>
                                 </select>
+                                <div *ngIf="f.month.touched && f.month.invalid" class="invalid-feedback">
+                                    <div *ngIf="f.month.errors?.required">Expiration Date(month) is required.</div>
+                                </div>
                             </div>
                             <div class="ccyear form-group col-sm-6">
                                 
-                                <select (change)="yearChanged($any($event.target).value)"  class="form-control" id="ccyear" formControlName="year"  required>
+                                <select [ngClass]="{'is-invalid': f.year.touched && f.year.invalid}" (change)="yearChanged($any($event.target).value)"  class="form-control" id="ccyear" formControlName="year"  required>
                                     <option value="" disabled selected>Select year</option>
                                     <option>2021</option>
                                     <option>2022</option>
@@ -61,6 +71,9 @@
                                     <option>2024</option>
                                     <option>2025</option>
                                 </select>
+                                <div *ngIf="f.year.touched && f.year.invalid" class="invalid-feedback">
+                                    <div *ngIf="f.year.errors?.required">Expiration Date(year) is required.</div>
+                                </div>
                             </div>
                             
                         </div>
@@ -68,13 +81,25 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="cvv">CVV <span title="Three-digits code on the back of your card">?</span></label>
-                                    <input class="form-control" id="cvv" type="text" formControlName="securityCode" required placeholder="123">
+                                    <input [ngClass]="{'is-invalid': f.securityCode.touched && f.securityCode.invalid}" class="form-control" id="cvv" type="text" formControlName="securityCode" required placeholder="123">
+                                    <div *ngIf="f.securityCode.touched && f.securityCode.invalid" class="invalid-feedback">
+                                        <div *ngIf="f.securityCode.errors?.required">Security Code is required.</div>
+                                        <div *ngIf="f.securityCode.errors?.minlength">Security Code should be 3 character.</div>
+                                        <div *ngIf="f.securityCode.errors?.maxlength">Security Code should be 3 character.</div>
+                                        <div *ngIf="f.securityCode.errors?.pattern">Invalid Security Code.</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="amt">Amount</label>
-                                    <input class="form-control" id="amt" type="text" formControlName="amount" required placeholder="amount">
+                                    <input  [ngClass]="{'is-invalid': f.amount.touched && f.amount.invalid}" class="form-control" id="amt" type="text" formControlName="amount" required placeholder="amount">
+                                    <div *ngIf="f.amount.touched && f.amount.invalid" class="invalid-feedback">
+                                        <div *ngIf="f.amount.errors?.required">Amount is required.</div>
+                                        <div *ngIf="f.amount.errors?.pattern">Invalid amount.</div>
+                                        <div *ngIf="f.amount.errors?.min">Amount must be greater than 0.</div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>

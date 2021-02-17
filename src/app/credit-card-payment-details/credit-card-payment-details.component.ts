@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { CreditCardPaymentDetails, PaymentService, ToasterService } from '../core';
@@ -25,15 +25,20 @@ export class CreditCardPaymentDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.creditCardPaymentDetailsForm = this.formBuilder.group({
-        cardHolder: ['', [Validators.required]],
-        creditCardNumber: ['', [Validators.required]],
-        expirationDate: [''],
-        amount: ['', [Validators.required]],
-        securityCode: ['', [Validators.minLength(3), Validators.maxLength(3)]],
-        year: ['', [Validators.required]],
-        month: ['', [Validators.required]]
-      });
+    this.creditCardPaymentDetailsForm = new FormGroup({
+      cardHolder: new FormControl('', [Validators.required]),
+      creditCardNumber: new FormControl('', [Validators.required]),
+      expirationDate: new FormControl(''),
+      amount: new FormControl('', [Validators.pattern(/^[0-9]*$/), Validators.min(1), Validators.required]),
+      securityCode: new FormControl('', [Validators.pattern(/^[0-9]*$/), Validators.minLength(3), Validators.maxLength(3)]),
+      year: new FormControl('', [Validators.required]),
+      month: new FormControl('', [Validators.required])
+
+    });
+  }
+
+  get f(){
+    return this.creditCardPaymentDetailsForm.controls;
   }
 
   onSubmit() {
