@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new creditCardActions.LoadCreditCards());
     this.creditCardDetails$ = this.store.pipe(select(fromCreditCard.getCreditCards));
     this.error$ = this.store.pipe(select(fromCreditCard.getError));
+    console.log(this.creditCardDetails$);
   }
 
 }

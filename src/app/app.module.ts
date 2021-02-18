@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
+import { creditCardReducer } from './credit-card-payment-details/state/credit-card-payment-details.reducers';
 
 
 
@@ -47,6 +48,7 @@ import { ToastrModule } from 'ngx-toastr';
       router: routerReducer
     }),
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
+    StoreModule.forFeature("creditcards", creditCardReducer),
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([]),
   ],
