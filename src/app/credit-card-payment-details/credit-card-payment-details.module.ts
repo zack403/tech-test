@@ -6,6 +6,9 @@ import { CreditCardPaymentDetailsComponent } from './credit-card-payment-details
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { StoreModule } from '@ngrx/store';
+import { creditCardReducer } from "./state/credit-card-payment-details.reducers";
+
 
 
 
@@ -22,6 +25,7 @@ import { ToastrModule } from 'ngx-toastr';
       progressBar: true
     }),
     ReactiveFormsModule,
+    StoreModule.forFeature("creditcards", creditCardReducer),
     CreditCardPaymentDetailsRoutingModule
   ]
 })

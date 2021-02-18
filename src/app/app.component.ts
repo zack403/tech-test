@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import {  Store } from '@ngrx/store';
+import {  select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState } from './app.state';
 import { CreditCardPaymentDetails } from './core';
+import * as fromCreditCard from "../app/credit-card-payment-details/state/credit-card-payment-details.reducers";
+
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent {
   creditCardDetails$: Observable<CreditCardPaymentDetails[]>;
 
   
-    constructor(private store: Store<AppState>) {
-      this.creditCardDetails$ = this.store.select(state => state.creditCardDetails);
+    constructor(private store: Store<fromCreditCard.AppState>) {
+      this.creditCardDetails$ = this.store.pipe(select(fromCreditCard.getCreditCards));
+      console.log(this.creditCardDetails$);
     }
 }

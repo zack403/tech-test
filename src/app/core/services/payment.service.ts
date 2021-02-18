@@ -13,7 +13,7 @@ export class PaymentService {
 
 
   addPayment (body : CreditCardPaymentDetails): Observable<any> {
-    return this.apiService.post('/payment', body).pipe(tap(res => {
+    return this.apiService.post('/fake', body).pipe(tap(res => {
        return res;
     }));
   }

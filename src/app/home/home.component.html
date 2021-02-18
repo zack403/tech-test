@@ -15,7 +15,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let cd of creditCardDetails$ | async; let i=index">
+          <tr>
+            <td colspan="5" class="alert alert-danger" *ngIf="error$ | async as error">{{error}}</td>
+          </tr>
+          <tr *ngFor="let cd of (creditCardDetails$ |async); let i=index">
             <th scope="row">{{i + 1}}</th>
             <td>{{cd.cardHolder}}</td>
             <td>{{cd.creditCardNumber}}</td>
